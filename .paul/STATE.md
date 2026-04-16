@@ -23,13 +23,13 @@ Current loop state:
 
 Last session: 2026-04-15
 Stopped at: Plan 03-01 applied and verified
-Next action: Run /paul:unify to close loop, then plan 03-02
+Next action: Run /paul:unify for 03-01, then /paul:apply for 03-02
 Resume file: .paul/phases/03-outputs-integration/03-01-PLAN.md
 Resume context:
 - 03-01 shipped: LLM-powered evals + debrief, human approval gate, LangSmith tracing
 - Auto-verified 22/22 (build 4/4, pipeline 9/9, gate 9/9)
-- Deserialization warnings fixed via allowed_msgpack_modules
-- 03-02 remaining: README, git init, GitHub push
+- 03-02 drafted: rich CLI wrapper (design-first checkpoint), README, GitHub push
+- User wants design help before implementing CLI display
 - Interview deadline: Friday April 17, 2026
 
 ## Decisions

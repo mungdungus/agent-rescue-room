@@ -12,6 +12,17 @@ from pathlib import Path
 from dotenv import load_dotenv
 from langgraph.types import Command
 
+from rescue.display import (
+    print_approval_gate,
+    print_banner,
+    print_completion,
+    print_debrief,
+    print_evals,
+    print_rejected,
+    print_stage_header,
+    prompt_approval,
+    reset_stages,
+)
 from rescue.graph import build_graph
 from rescue.schemas import RescueState
 
@@ -69,15 +80,9 @@ def main():
     else:
         tracing_status = "disabled (no LANGCHAIN_API_KEY)"
 
-    print("=" * 60)
-    print("  AGENT RESCUE ROOM")
-    print("  Production Agent Debugging Field Kit")
-    print("=" * 60)
-    print(f"\n  Trace: {trace_path}")
-    print(f"  Events: {len(raw_trace)}")
-    print(f"  Repo: {repo_path}")
-    print(f"  LangSmith tracing: {tracing_status}")
-    print()
+    # Display banner
+    reset_stages()
+    print_banner(str(trace_path), len(raw_trace), repo_path, tracing_status)
 
     # Build graph and configure thread for checkpointing
     app = build_graph()
@@ -98,77 +103,43 @@ def main():
     result = {}
     for event in app.stream(initial_state, config=config):
         for node_name, output in event.items():
-            print(f"\n{'─' * 40}")
-            print(f"  Node: {node_name}")
+            if node_name == "__interrupt__":
+                continue
+            print_stage_header(node_name)
             if output:
                 result.update(output)
 
     # Show diagnosis for human review
     diagnosis = result.get("diagnosis")
     if diagnosis:
-        print(f"\n{'=' * 60}")
-        print("  HUMAN APPROVAL GATE")
-        print("  Review the diagnosis before generating evals and debrief")
-        print("=" * 60)
-        print(f"\n  Confidence: {diagnosis.confidence:.0%}")
-        print(f"  Root cause: {diagnosis.root_cause}")
-        print(f"\n  Confirmed failures:")
-        for c in diagnosis.confirmed_failures:
-            print(f"    [{c.confidence:.0%}] {c.failure_type}")
-        print(f"\n  Remediation steps:")
-        for i, step in enumerate(diagnosis.remediation_steps, 1):
-            print(f"    {i}. {step}")
-        if diagnosis.dismissed_hypotheses:
-            print(f"\n  Dismissed hypotheses:")
-            for d in diagnosis.dismissed_hypotheses:
-                print(f"    - {d.hypothesis}: {d.reason}")
+        print_approval_gate(diagnosis)
 
     # Wait for human approval
-    print(f"\n{'─' * 60}")
-    approval = input("  Type 'approve' to continue, or 'reject' to stop: ").strip().lower()
+    approved = prompt_approval()
 
-    if approval != "approve":
-        print("\n  Diagnosis rejected. Pipeline stopped.")
+    if not approved:
+        print_rejected()
         sys.exit(0)
-
-    print("\n  Approved. Continuing to eval generation and debrief...")
 
     # Phase 2: Resume execution through evals and debrief
     for event in app.stream(Command(resume=True), config=config):
         for node_name, output in event.items():
-            print(f"\n{'─' * 40}")
-            print(f"  Node: {node_name}")
+            if node_name == "__interrupt__":
+                continue
+            print_stage_header(node_name)
             if output:
                 result.update(output)
 
-    # Final output
+    # Final formatted output
     debrief = result.get("debrief")
     if debrief:
-        print(f"\n{'=' * 60}")
-        print("  CUSTOMER DEBRIEF")
-        print("=" * 60)
-        print(f"\n  Summary: {debrief.incident_summary}")
-        print(f"\n  Root cause: {debrief.root_cause_plain}")
-        print(f"\n  Impact: {debrief.customer_impact}")
-        print(f"\n  Fix: {debrief.fix_description}")
-        print(f"\n  Prevention:")
-        for m in debrief.prevention_measures:
-            print(f"    - {m}")
-        print(f"\n  Timeline: {debrief.timeline}")
+        print_debrief(debrief)
 
     eval_cases = result.get("eval_cases", [])
     if eval_cases:
-        print(f"\n{'=' * 60}")
-        print(f"  REGRESSION EVALS ({len(eval_cases)} cases)")
-        print("=" * 60)
-        for e in eval_cases:
-            print(f"\n  [{e.eval_type}] {e.name}")
-            print(f"    {e.description}")
-            print(f"    Catches: {e.failure_it_catches}")
+        print_evals(eval_cases)
 
-    print(f"\n{'=' * 60}")
-    print("  RESCUE COMPLETE")
-    print("=" * 60)
+    print_completion()
 
 
 if __name__ == "__main__":

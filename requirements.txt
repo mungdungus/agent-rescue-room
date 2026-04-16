@@ -1,0 +1,8 @@
+langchain>=1.2.15
+langchain-core>=1.2.29
+langchain-google-genai>=4.2.1
+langgraph>=1.1.6
+langsmith>=0.7.31
+pydantic>=2.13.0
+python-dotenv>=1.2.2
+rich>=15.0.0
