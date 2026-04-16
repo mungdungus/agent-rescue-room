@@ -28,7 +28,7 @@ trace.json ─► ingest ─► classify ─► ground ─► tribunal ─► [a
 ## Quick start
 
 ```bash
-git clone https://github.com/christianmartin/agent-rescue-room.git
+git clone https://github.com/mungdungus/agent-rescue-room.git
 cd agent-rescue-room
 
 python -m venv venv
