@@ -41,6 +41,9 @@ class FailureClassification(BaseModel):
         "budget_runaway",
         "state_corruption",
         "swallowed_error",
+        "silent_data_loss",
+        "misleading_metric",
+        "incomplete_fallback",
     ] = Field(description="Category of failure")
     confidence: float = Field(ge=0.0, le=1.0, description="Confidence this classification is correct")
     evidence: list[str] = Field(description="Specific trace events or code references supporting this")

@@ -1,0 +1,378 @@
+[
+  {
+    "node": "coordinator",
+    "type": "routing",
+    "timestamp": "2026-04-16T17:20:43.995790Z",
+    "input": {},
+    "output": {},
+    "metadata": {
+      "model": "System",
+      "note": ""
+    }
+  },
+  {
+    "node": "fetch",
+    "type": "retrieval",
+    "timestamp": "2026-04-16T17:20:43.995790Z",
+    "input": {},
+    "output": {},
+    "metadata": {
+      "model": "System",
+      "note": "Downloading repository from GitHub...",
+      "elapsedMs": 1899
+    }
+  },
+  {
+    "node": "fetch",
+    "type": "retrieval",
+    "timestamp": "2026-04-16T17:20:43.995790Z",
+    "input": {},
+    "output": {},
+    "metadata": {
+      "model": "System",
+      "note": ""
+    }
+  },
+  {
+    "node": "fetch",
+    "type": "retrieval",
+    "timestamp": "2026-04-16T17:20:43.995790Z",
+    "input": {},
+    "output": {},
+    "metadata": {
+      "model": "System",
+      "note": "snapshot: complete",
+      "elapsedMs": 18
+    }
+  },
+  {
+    "node": "fetch",
+    "type": "retrieval",
+    "timestamp": "2026-04-16T17:20:43.995790Z",
+    "input": {},
+    "output": {},
+    "metadata": {
+      "model": "System",
+      "note": "fetch: complete",
+      "elapsedMs": 16,
+      "filesProcessed": 33
+    }
+  },
+  {
+    "node": "triage",
+    "type": "routing",
+    "timestamp": "2026-04-16T17:20:43.995790Z",
+    "input": {},
+    "output": {},
+    "metadata": {
+      "model": "System",
+      "note": "Selected top files for deep analysis",
+      "elapsedMs": 8
+    }
+  },
+  {
+    "node": "deterministic_scanner",
+    "type": "tool_call",
+    "timestamp": "2026-04-16T17:20:43.995790Z",
+    "input": {},
+    "output": {},
+    "metadata": {
+      "model": "System",
+      "note": "Secret scan complete",
+      "elapsedMs": 21
+    }
+  },
+  {
+    "node": "dual_agent",
+    "type": "llm_response",
+    "timestamp": "2026-04-16T17:20:43.995790Z",
+    "input": {
+      "model_role": "tribunal",
+      "explainer": ""
+    },
+    "output": {},
+    "metadata": {
+      "model": "System",
+      "note": "Analyzing code for security, architecture, and engineering quality...",
+      "elapsedMs": 205,
+      "filesProcessed": 33,
+      "chunksComplete": 1,
+      "chunksTotal": 1
+    }
+  },
+  {
+    "node": "dual_agent",
+    "type": "llm_response",
+    "timestamp": "2026-04-16T17:20:43.995790Z",
+    "input": {
+      "model_role": "agentA",
+      "explainer": "Gemini Pro has deep context understanding. It examines security patterns, dependency risks, and API design."
+    },
+    "output": {},
+    "metadata": {
+      "model": "google/gemini-2.5-pro",
+      "note": "Analyzing code for security, architecture, and engineering quality...",
+      "elapsedMs": 205,
+      "filesProcessed": 33,
+      "chunksComplete": 1,
+      "chunksTotal": 1
+    }
+  },
+  {
+    "node": "dual_agent",
+    "type": "llm_response",
+    "timestamp": "2026-04-16T17:20:43.995790Z",
+    "input": {
+      "model_role": "agentB",
+      "explainer": "Claude excels at architectural analysis. It evaluates code structure, testing coverage, and engineering practices."
+    },
+    "output": {},
+    "metadata": {
+      "model": "google/gemini-2.5-flash",
+      "note": "Analyzing code for security, architecture, and engineering quality...",
+      "elapsedMs": 205,
+      "filesProcessed": 33,
+      "chunksComplete": 1,
+      "chunksTotal": 1
+    }
+  },
+  {
+    "node": "dual_agent",
+    "type": "llm_response",
+    "timestamp": "2026-04-16T17:20:43.995790Z",
+    "input": {},
+    "output": {},
+    "metadata": {
+      "model": "System",
+      "note": ""
+    }
+  },
+  {
+    "node": "reconciler",
+    "type": "routing",
+    "timestamp": "2026-04-16T17:20:43.995790Z",
+    "input": {},
+    "output": {},
+    "metadata": {
+      "model": "System",
+      "note": "Findings reconciled",
+      "elapsedMs": 9
+    }
+  },
+  {
+    "node": "career_analyzer",
+    "type": "llm_response",
+    "timestamp": "2026-04-16T17:20:43.995790Z",
+    "input": {},
+    "output": {},
+    "metadata": {
+      "model": "System",
+      "note": "Conducting comprehensive technical assessment...",
+      "elapsedMs": 1305
+    }
+  },
+  {
+    "node": "career_analyzer",
+    "type": "llm_response",
+    "timestamp": "2026-04-16T17:20:43.995790Z",
+    "input": {},
+    "output": {},
+    "metadata": {
+      "model": "System",
+      "note": ""
+    }
+  },
+  {
+    "node": "coordinator",
+    "type": "output",
+    "timestamp": "2026-04-16T17:20:43.995790Z",
+    "input": {},
+    "output": {
+      "score": 85,
+      "grade": "B",
+      "findings_count": 8,
+      "ai_checks_run": 0,
+      "citations_verified": 0,
+      "hallucinations_rejected": 0,
+      "agreement_rate": 100,
+      "analysis_time_ms": 121625,
+      "finding_sources": {
+        "deterministic": 8
+      },
+      "findings": [
+        {
+          "id": "det-0-1776359865978",
+          "source": "deterministic",
+          "category": "Dependency Health",
+          "severity": "medium",
+          "message": "No lockfile \u2014 dependency integrity is at risk",
+          "fix": "Implement the missing baseline control for this repository",
+          "agentAFound": true,
+          "agentBFound": true,
+          "confidence": "high",
+          "citation": {
+            "file": "[repository]",
+            "snippet": "No lockfile \u2014 dependency integrity is at risk",
+            "verified": true
+          },
+          "penalty": 5,
+          "scoring_category": "Dependency Health"
+        },
+        {
+          "id": "det-1-1776359865978",
+          "source": "deterministic",
+          "category": "Code Organization",
+          "severity": "medium",
+          "message": "No TypeScript configuration \u2014 type safety gaps across the codebase",
+          "fix": "Implement the missing baseline control for this repository",
+          "agentAFound": true,
+          "agentBFound": true,
+          "confidence": "high",
+          "citation": {
+            "file": "[repository]",
+            "snippet": "No TypeScript configuration \u2014 type safety gaps acr",
+            "verified": true
+          },
+          "penalty": 8,
+          "scoring_category": "Code Organization"
+        },
+        {
+          "id": "det-2-1776359865978",
+          "source": "deterministic",
+          "category": "Code Organization",
+          "severity": "low",
+          "message": "No linter configuration \u2014 code quality standards are not enforced",
+          "fix": "Implement the missing baseline control for this repository",
+          "agentAFound": true,
+          "agentBFound": true,
+          "confidence": "high",
+          "citation": {
+            "file": "[repository]",
+            "snippet": "No linter configuration \u2014 code quality standards a",
+            "verified": true
+          },
+          "penalty": 5,
+          "scoring_category": "Code Organization"
+        },
+        {
+          "id": "det-3-1776359865978",
+          "source": "deterministic",
+          "category": "Production Readiness",
+          "severity": "medium",
+          "message": "No CI/CD pipeline config \u2014 builds and tests are not automated",
+          "fix": "Implement the missing baseline control for this repository",
+          "agentAFound": true,
+          "agentBFound": true,
+          "confidence": "high",
+          "citation": {
+            "file": "[repository]",
+            "snippet": "No CI/CD pipeline config \u2014 builds and tests are no",
+            "verified": true
+          },
+          "penalty": 8,
+          "scoring_category": "Production Readiness"
+        },
+        {
+          "id": "det-4-1776359865978",
+          "source": "deterministic",
+          "category": "Testing Maturity",
+          "severity": "high",
+          "message": "No test files detected \u2014 automated test coverage appears absent",
+          "fix": "Implement the missing baseline control for this repository",
+          "agentAFound": true,
+          "agentBFound": true,
+          "confidence": "high",
+          "citation": {
+            "file": "[repository]",
+            "snippet": "No test files detected \u2014 automated test coverage a",
+            "verified": true
+          },
+          "penalty": 10,
+          "scoring_category": "Testing Maturity"
+        },
+        {
+          "id": "det-5-1776359865978",
+          "source": "deterministic",
+          "category": "Strategic IP Exposure",
+          "severity": "medium",
+          "message": "Admin or internal route files committed \u2014 exposes privileged surface area to the public",
+          "fix": "Consider moving admin/internal routes to a separate private repository or add documentation explaining why they are public.",
+          "agentAFound": true,
+          "agentBFound": true,
+          "confidence": "high",
+          "citation": {
+            "file": "[repository]",
+            "snippet": "Admin or internal route files committed \u2014 exposes ",
+            "verified": true
+          },
+          "penalty": 7,
+          "scoring_category": "Security Posture"
+        },
+        {
+          "id": "det-6-1776359865978",
+          "source": "deterministic",
+          "category": "Code Organization",
+          "severity": "medium",
+          "message": "Project structure: 29 root-level files (threshold: 20+)",
+          "fix": "Organize files into feature-based or type-based subdirectories. Move components into categories (ui/, features/, layouts/).",
+          "agentAFound": true,
+          "agentBFound": true,
+          "confidence": "high",
+          "citation": {
+            "file": "[repository]",
+            "snippet": "Project structure: 29 root-level files (threshold:",
+            "verified": true
+          },
+          "penalty": 6,
+          "scoring_category": "Code Organization"
+        },
+        {
+          "id": "det-7-1776359865978",
+          "source": "deterministic",
+          "category": "Testing Maturity",
+          "severity": "medium",
+          "message": "Testing presence: No test files detected \u2014 automated test coverage appears absent",
+          "fix": "Add unit tests for critical business logic. Start with: npx vitest init",
+          "agentAFound": true,
+          "agentBFound": true,
+          "confidence": "high",
+          "citation": {
+            "file": "[repository]",
+            "snippet": "Testing presence: No test files detected \u2014 automat",
+            "verified": true
+          },
+          "penalty": 8,
+          "scoring_category": "Testing Maturity"
+        }
+      ],
+      "positives": [
+        {
+          "category": "Configuration",
+          "description": "Proper .gitignore configured"
+        },
+        {
+          "category": "Documentation",
+          "description": ".env.example provided for safe secrets management"
+        },
+        {
+          "category": "Rate Limiting",
+          "description": "Rate limiting implemented"
+        },
+        {
+          "category": "Code Organization",
+          "description": "[Development Process] Maintains clean commit history with descriptive, well-formatted messages that document development decisions."
+        }
+      ],
+      "career_packet": {
+        "skills_detected": 0,
+        "primary_bullets": 0,
+        "tier_fit": "ai_curious",
+        "confidence": 0.5
+      }
+    },
+    "metadata": {
+      "model": "System",
+      "note": ""
+    }
+  }
+]

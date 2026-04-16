@@ -23,6 +23,9 @@ Failure types you can assign:
 - budget_runaway: Token or cost budget was exceeded
 - state_corruption: Agent continued operating on corrupted or invalid state
 - swallowed_error: An error occurred but was not propagated, allowing the agent to continue incorrectly
+- silent_data_loss: Valid data was silently dropped by a normalization or validation layer without surfacing the loss
+- misleading_metric: A reported metric (confidence, agreement rate, score) does not reflect actual system behavior
+- incomplete_fallback: System fell back to a degraded mode without adequately signaling the quality reduction
 
 For each failure found:
 - Assign the most specific failure_type from the list above
