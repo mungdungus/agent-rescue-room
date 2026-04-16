@@ -38,7 +38,7 @@ theme = Theme({
 
 console = Console(theme=theme)
 
-TOTAL_STAGES = 6
+TOTAL_STAGES = 7
 STAGE_NAMES = {
     "ingest": ("Trace Ingestor", "Parsing raw trace events"),
     "classify": ("Failure Classifier", "Categorizing failures with LLM"),
@@ -46,6 +46,7 @@ STAGE_NAMES = {
     "tribunal": ("Tribunal Diagnoser", "Two-agent root cause validation"),
     "evals": ("Eval Generator", "Building regression test cases"),
     "debrief": ("Debrief Writer", "Drafting customer remediation memo"),
+    "learn": ("Knowledge Extractor", "Learning patterns for future diagnoses"),
 }
 
 _stage_counter = 0

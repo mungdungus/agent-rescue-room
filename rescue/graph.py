@@ -18,6 +18,7 @@ from rescue.nodes.ground import ground_node
 from rescue.nodes.tribunal import tribunal_node
 from rescue.nodes.evals import evals_node
 from rescue.nodes.debrief import debrief_node
+from rescue.nodes.learn import learn_node
 
 
 def build_graph():
@@ -31,6 +32,7 @@ def build_graph():
     graph.add_node("tribunal", tribunal_node)
     graph.add_node("evals", evals_node)
     graph.add_node("debrief", debrief_node)
+    graph.add_node("learn", learn_node)
 
     # Linear flow
     graph.set_entry_point("ingest")
@@ -39,7 +41,8 @@ def build_graph():
     graph.add_edge("ground", "tribunal")
     graph.add_edge("tribunal", "evals")
     graph.add_edge("evals", "debrief")
-    graph.add_edge("debrief", END)
+    graph.add_edge("debrief", "learn")
+    graph.add_edge("learn", END)
 
     # Compile with human approval gate before evals and checkpointer for state persistence
     serde = JsonPlusSerializer(allowed_msgpack_modules=[

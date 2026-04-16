@@ -23,7 +23,20 @@ trace.json ─► ingest ─► classify ─► ground ─► tribunal ─► [a
 - **Structured output**: Pydantic models as LLM output schemas (with Gemini's top-level object requirement)
 - **Tool-calling loop**: grounding engine reads source code files to map failures to specific functions
 - **Two-agent pattern**: tribunal node where a proposer and challenger validate the root cause
+- **Self-improving knowledge base**: learns failure patterns from each diagnosis, uses them to improve future classification
 - **LangSmith tracing**: all LLM calls instrumented when API key is present
+
+## Self-improving pipeline
+
+The `learn` node (Stage 7) extracts reusable failure patterns from each completed diagnosis and persists them to `data/knowledge.json`. On future runs, the classifier loads accumulated patterns to improve detection accuracy.
+
+```
+Run 1: diagnoses research agent → learns 3 patterns (silent_tool_failure, gate_bypass, stale_data)
+Run 2: diagnoses scan pipeline → loads 3 patterns, learns 2 more (pipeline_bypass, metric_dilution)
+Run N: accumulated knowledge improves every classification
+```
+
+The knowledge base grows with each incident. Patterns are deduplicated by signal fingerprint.
 
 ## Quick start
 
@@ -67,11 +80,12 @@ rescue/
   tools.py       File-reading tools for the grounding engine
   nodes/
     ingest.py    Parse raw trace JSON
-    classify.py  LLM failure classification
+    classify.py  LLM failure classification (loads learned patterns)
     ground.py    Map failures to source code via tool calls
     tribunal.py  Two-agent challenge pattern for diagnosis
     evals.py     Generate regression test cases
     debrief.py   Write customer remediation memo
+    learn.py     Extract and persist novel failure patterns
 data/
   traces/        Canned failure scenarios
   incident-brief.md

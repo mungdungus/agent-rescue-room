@@ -74,6 +74,27 @@ def format_trace_for_llm(state: RescueState) -> str:
     return "\n".join(lines)
 
 
+def build_knowledge_context() -> str:
+    """Load accumulated patterns and format as classifier context."""
+    from rescue.nodes.learn import load_knowledge
+
+    patterns = load_knowledge()
+    if not patterns:
+        return ""
+
+    lines = [
+        f"\n\nLEARNED PATTERNS FROM PREVIOUS INCIDENTS ({len(patterns)} patterns):",
+        "Use these to improve classification accuracy. If you see matching signals, apply the corresponding failure_type.\n",
+    ]
+    for p in patterns:
+        lines.append(
+            f"- [{p['failure_type']}] {p['pattern_id']}: {p['signal']}"
+            f"\n  Context: {p['context']}"
+        )
+
+    return "\n".join(lines)
+
+
 def classify_node(state: RescueState) -> dict:
     """Classify failures in the trace using LLM with structured output."""
     llm = ChatGoogleGenerativeAI(model=MODEL, temperature=0)
@@ -81,13 +102,19 @@ def classify_node(state: RescueState) -> dict:
 
     trace_text = format_trace_for_llm(state)
 
+    # Inject accumulated knowledge into the system prompt
+    knowledge_ctx = build_knowledge_context()
+    system_prompt = CLASSIFY_SYSTEM + knowledge_ctx
+    if knowledge_ctx:
+        print(f"   Loaded learned patterns into classifier")
+
     incident = state.get("incident_brief", "")
     human_input = f"Analyze this failed agent trace and classify all failures:\n\n{trace_text}"
     if incident:
         human_input += f"\n\nINCIDENT BRIEF:\n{incident}"
 
     messages = [
-        SystemMessage(content=CLASSIFY_SYSTEM),
+        SystemMessage(content=system_prompt),
         HumanMessage(content=human_input),
     ]
 
