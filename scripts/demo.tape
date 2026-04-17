@@ -14,8 +14,8 @@
 Output "media/demo.gif"
 
 Set Shell "bash"
-Set FontFamily "JetBrains Mono"
-Set FontSize 14
+Set FontFamily "Menlo"
+Set FontSize 16
 Set Width 1400
 Set Height 900
 Set Padding 24

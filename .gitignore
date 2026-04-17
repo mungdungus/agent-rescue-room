@@ -8,3 +8,6 @@ build/
 
 # Runtime state — learn node accumulates patterns per run
 data/knowledge.json
+
+# LangGraph local dev server state
+.langgraph_api/
