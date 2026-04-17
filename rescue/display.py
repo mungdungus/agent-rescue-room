@@ -1,28 +1,34 @@
 """
 Agent Rescue Room — Rich Display Module
 
-VoltAgent-inspired design: void-black canvas, emerald accent, terminal-native.
-Designed to be followable by a non-technical viewer during a screen share.
+LangChain-cousin palette on a terminal-native canvas. Parrot-green primary,
+LangSmith terracotta for failures, warm neutrals extracted from LangChain's
+own docs. Square geometry, minimal table chrome. Built to be followable by
+a non-technical viewer during a screen share.
+
+Constant names kept for backward compat with __main__.py imports; values
+were swapped from the earlier VoltAgent palette.
 """
 
+from rich import box
 from rich.console import Console
 from rich.panel import Panel
 from rich.table import Table
 from rich.text import Text
 from rich.theme import Theme
 
-# VoltAgent palette
-EMERALD = "#00d992"
-MINT = "#2fd6a1"
-TEAL = "#4cb3d4"
-PURPLE = "#818cf8"
-CHARCOAL = "#3d3a39"
-SNOW = "#f2f2f2"
-PARCHMENT = "#b8b3b0"
-SLATE = "#8b949e"
-AMBER = "#ffba00"
-CORAL = "#fb565b"
-SUCCESS = "#008b00"
+# LangChain-cousin palette
+EMERALD = "#30a46c"    # LangChain parrot green — brand accent
+MINT = "#c6f54a"       # LangChain chartreuse — completion moments
+TEAL = "#7dcfff"       # soft cyan — informational
+PURPLE = "#818cf8"     # LangGraph diagram purple — kept, plays well with parrot
+CHARCOAL = "#3d3a39"   # warm neutral rule / border
+SNOW = "#e0d8c8"       # warm off-white body text (Lausanne-friendly)
+PARCHMENT = "#b8b3b0"  # secondary body text
+SLATE = "#505051"      # extracted from docs.langchain.com
+AMBER = "#e0af68"      # warm amber warnings
+CORAL = "#e34f3a"      # LangSmith terracotta — errors, failures
+SUCCESS = "#30a46c"    # parrot green for healthy / success
 
 theme = Theme({
     "accent": f"bold {EMERALD}",
@@ -78,6 +84,7 @@ def print_banner(trace_path: str, event_count: int, repo_path: str, tracing_stat
     console.print(Panel(
         panel_content,
         border_style=EMERALD,
+        box=box.SQUARE,
         padding=(1, 2),
     ))
 
@@ -100,6 +107,7 @@ def print_stage_header(node_name: str):
     console.print(Panel(
         header,
         border_style=CHARCOAL,
+        box=box.SQUARE,
         padding=(0, 2),
     ))
 
@@ -145,6 +153,7 @@ def print_approval_gate(diagnosis):
         title=gate_title,
         title_align="left",
         border_style=EMERALD,
+        box=box.SQUARE,
         padding=(1, 2),
     ))
 
@@ -187,6 +196,7 @@ def print_debrief(debrief):
         title=title,
         title_align="left",
         border_style=CHARCOAL,
+        box=box.SQUARE,
         padding=(1, 2),
     ))
 
@@ -199,7 +209,7 @@ def print_evals(eval_cases: list):
         title=f"REGRESSION EVALS  {len(eval_cases)} cases",
         title_style="accent",
         border_style=CHARCOAL,
-        show_lines=True,
+        box=box.SIMPLE_HEAD,
         padding=(0, 1),
     )
     table.add_column("Type", style="purple", width=16)
@@ -220,6 +230,7 @@ def print_completion():
     console.print(Panel(
         done,
         border_style=EMERALD,
+        box=box.SQUARE,
         padding=(0, 2),
     ))
     console.print()

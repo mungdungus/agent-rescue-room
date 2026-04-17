@@ -1,36 +1,36 @@
 ## Current Position
 
 Milestone: v0.1 Working Demo
-Phase: 3 of 3 (Outputs + integration) — Executing
-Plan: 03-01 complete, awaiting UNIFY
-Status: APPLY complete, ready for UNIFY
-Last activity: 2026-04-15 — All 4 tasks passed, auto-verified 22/22
+Phase: 3 of 3 (Outputs + integration) — In Progress
+Plan: 03-01 loop closed (SUMMARY written); 03-02 next
+Status: Ready for APPLY on 03-02
+Last activity: 2026-04-17 — 03-01 UNIFY complete, SUMMARY.md written
 
 Progress:
 - Milestone v0.1: [████████░░] 83%
 - Phase 1: [██████████] 100% (complete)
 - Phase 2: [██████████] 100% (complete)
-- Phase 3: [█████░░░░░] 50% (03-01 applied, 03-02 remaining)
+- Phase 3: [█████░░░░░] 50% (03-01 closed, 03-02 remaining)
 
 ## Loop Position
 
 Current loop state:
 
     PLAN ──▶ APPLY ──▶ UNIFY
-      ✓        ✓        ○     [Apply complete, ready for UNIFY]
+      ✓        ✓        ✓     [03-01 loop complete — ready for 03-02 APPLY]
 
 ## Session Continuity
 
-Last session: 2026-04-15
-Stopped at: Plan 03-01 applied and verified
-Next action: Run /paul:unify for 03-01, then /paul:apply for 03-02
-Resume file: .paul/phases/03-outputs-integration/03-01-PLAN.md
+Last session: 2026-04-17
+Stopped at: 03-01 UNIFY closed
+Next action: Run /paul:apply 3-02 to execute drafted plan
+Resume file: .paul/phases/03-outputs-integration/03-02-PLAN.md
 Resume context:
-- 03-01 shipped: LLM-powered evals + debrief, human approval gate, LangSmith tracing
-- Auto-verified 22/22 (build 4/4, pipeline 9/9, gate 9/9)
-- 03-02 drafted: rich CLI wrapper (design-first checkpoint), README, GitHub push
-- User wants design help before implementing CLI display
-- Interview deadline: Friday April 17, 2026
+- 03-01 closed: LLM evals + debrief, interrupt_before gate, LangSmith tracing — all ACs pass, 22/22 auto-verify
+- SUMMARY.md at .paul/phases/03-outputs-integration/03-01-SUMMARY.md notes 4 scope additions shipped post-03-01 (learn node, StackProof scenario, 403 fix, early rich CLI pass)
+- 03-02 drafted: rich CLI wrapper design pass, README, GitHub push
+- LangChain-cousin palette swap already applied to rescue/display.py (uncommitted); part of 03-02 APPLY
+- Interview deadline: Friday April 17, 2026 (today)
 
 ## Decisions
 
@@ -48,3 +48,4 @@ Resume context:
 | 2026-04-15 | Tool loop in node, not ToolNode prebuilt | Clearer for demo explanation, explicit control over max calls |
 | 2026-04-15 | Phase 3 split: 03-01 (LLM + gate + tracing) and 03-02 (README + GitHub) | Keeps each plan at 2-3 tasks, separates build from ship |
 | 2026-04-15 | JsonPlusSerializer with allowed_msgpack_modules | Silences checkpoint deserialization warnings for custom Pydantic types |
+| 2026-04-17 | 03-02 design: implement-direct (not design-first) | Prior session already iterated palette to LangChain-cousin + square geometry; Task 1 becomes verify-existing |

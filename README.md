@@ -7,14 +7,14 @@ Takes a failed agent trace, diagnoses what went wrong, generates regression test
 ## Architecture
 
 ```
-trace.json ─► ingest ─► classify ─► ground ─► tribunal ─► [approval gate] ─► evals ─► debrief
-                │           │          │          │              │                │         │
-            parse raw   categorize   map to    two-agent     human reviews   generate   write
-             events     failures    source    challenge/     diagnosis      regression  customer
-                        with LLM     code     validate                      test cases   memo
+trace.json ─► ingest ─► classify ─► ground ─► tribunal ─► [approval gate] ─► evals ─► debrief ─► learn
+                │           │          │          │              │               │         │         │
+            parse raw   categorize   map to    two-agent     human reviews   generate   write    extract
+             events     failures    source    challenge/     diagnosis      regression  customer  reusable
+                        with LLM     code     validate                      test cases   memo    patterns
 ```
 
-**6 pipeline stages**, 4 powered by LLM (Gemini), 1 with tool-calling for code analysis.
+**7 pipeline stages**, 5 powered by LLM (Gemini), 1 with tool-calling for code analysis, 1 knowledge extractor.
 
 ## What it demonstrates
 
@@ -76,7 +76,7 @@ rescue/
   __main__.py    CLI entry point
   graph.py       LangGraph pipeline with interrupt_before
   schemas.py     Pydantic models for every pipeline stage
-  display.py     Rich terminal output (VoltAgent-inspired design)
+  display.py     Rich terminal output (LangChain-cousin palette, square geometry)
   tools.py       File-reading tools for the grounding engine
   nodes/
     ingest.py    Parse raw trace JSON
