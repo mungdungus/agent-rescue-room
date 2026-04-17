@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from datetime import datetime
+
 from dotenv import load_dotenv
 from langchain_core.messages import HumanMessage, SystemMessage
 from langchain_google_genai import ChatGoogleGenerativeAI
@@ -44,14 +46,19 @@ def debrief_node(state: RescueState) -> dict:
         for e in eval_cases
     )
 
+    today = datetime.now().strftime("%Y-%m-%d")
+
     human_input = (
         f"Write a customer remediation memo for this incident:\n\n"
+        f"TODAY: {today}\n"
         f"ROOT CAUSE: {diagnosis.root_cause}\n"
         f"CONFIDENCE: {diagnosis.confidence:.0%}\n\n"
         f"CONFIRMED FAILURES:\n{failures_text}\n\n"
         f"REMEDIATION STEPS:\n"
         + "\n".join(f"- {s}" for s in diagnosis.remediation_steps)
-        + f"\n\nREGRESSION TESTS ADDED:\n{evals_text}"
+        + f"\n\nREGRESSION TESTS ADDED:\n{evals_text}\n\n"
+        f"For the timeline field, anchor all dates relative to TODAY ({today}). "
+        f"Use real calendar dates, not placeholders."
     )
 
     messages = [
