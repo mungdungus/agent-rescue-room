@@ -11,7 +11,7 @@
 #   learn ~8s). Bump them up if your run lands mid-frame during playback.
 # - PlaybackSpeed 1.3 keeps it snappy without feeling rushed.
 
-Output media/demo.gif
+Output "media/demo.gif"
 
 Set Shell "bash"
 Set FontFamily "JetBrains Mono"
@@ -26,6 +26,9 @@ Set Theme { "background": "#000000", "foreground": "#E6F3FF", "cursor": "#00BFFF
 # Silent setup — activate venv and clear the screen so recording starts clean
 Hide
 Type `source "$HOME/ANTIGRAVITY PROJECTS/OPERATION GETAJOB 2026/langchain-interview-prep/demo/venv/bin/activate"`
+Enter
+Sleep 400ms
+Type `cd "$HOME/ANTIGRAVITY PROJECTS/agent-rescue-room"`
 Enter
 Sleep 400ms
 Type "clear"

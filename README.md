@@ -1,5 +1,7 @@
 # Agent Rescue Room
 
+![Agent Rescue Room demo](media/demo.gif)
+
 Production agent debugging field kit built with LangGraph.
 
 Takes a failed agent trace, diagnoses what went wrong, generates regression tests, and writes a customer-ready incident memo. A human approval gate pauses the pipeline so you can review the diagnosis before committing to fixes.
