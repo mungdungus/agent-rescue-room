@@ -178,8 +178,8 @@ def print_approval_gate(diagnosis):
         diag.append("\nDismissed hypotheses\n", style="dim")
         for d in diagnosis.dismissed_hypotheses:
             diag.append(f"  {DISMISS} ", style="err")
-            diag.append(f"{d.hypothesis}", style="ghost")
-            diag.append(f"  ({d.reason})\n", style="ghost")
+            diag.append(f"{d.hypothesis}", style="body")
+            diag.append(f"  ({d.reason})\n", style="dim")
 
     gate_title = Text()
     gate_title.append(f"{STAGE_MARKER}  HUMAN APPROVAL GATE", style="accent")
