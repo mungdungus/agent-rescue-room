@@ -23,7 +23,7 @@ from rescue.display import (
     prompt_approval,
     reset_stages,
 )
-from rescue.graph import build_graph
+from rescue.graph import build_local_graph
 from rescue.schemas import RescueState
 
 load_dotenv()
@@ -85,7 +85,7 @@ def main():
     print_banner(str(trace_path), len(raw_trace), repo_path, tracing_status)
 
     # Build graph and configure thread for checkpointing
-    app = build_graph()
+    app = build_local_graph()
     config = {"configurable": {"thread_id": "rescue-demo-1"}}
 
     initial_state: RescueState = {

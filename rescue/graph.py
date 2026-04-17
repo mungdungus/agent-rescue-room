@@ -21,11 +21,25 @@ from rescue.nodes.debrief import debrief_node
 from rescue.nodes.learn import learn_node
 
 
-def build_graph():
-    """Construct the Agent Rescue Room StateGraph with human approval gate."""
+def _serde():
+    return JsonPlusSerializer(allowed_msgpack_modules=[
+        ("rescue.schemas", "TraceEvent"),
+        ("rescue.schemas", "FailureClassification"),
+        ("rescue.schemas", "Diagnosis"),
+        ("rescue.schemas", "DismissedHypothesis"),
+        ("rescue.schemas", "EvalCase"),
+        ("rescue.schemas", "CustomerDebrief"),
+    ])
+
+
+def build_graph(checkpointer=None):
+    """Construct the Agent Rescue Room StateGraph with human approval gate.
+
+    Pass a checkpointer for local CLI runs. Leave None when targeting
+    LangGraph Platform — the platform injects its own managed checkpointer.
+    """
     graph = StateGraph(RescueState)
 
-    # Add nodes
     graph.add_node("ingest", ingest_node)
     graph.add_node("classify", classify_node)
     graph.add_node("ground", ground_node)
@@ -34,7 +48,6 @@ def build_graph():
     graph.add_node("debrief", debrief_node)
     graph.add_node("learn", learn_node)
 
-    # Linear flow
     graph.set_entry_point("ingest")
     graph.add_edge("ingest", "classify")
     graph.add_edge("classify", "ground")
@@ -44,14 +57,16 @@ def build_graph():
     graph.add_edge("debrief", "learn")
     graph.add_edge("learn", END)
 
-    # Compile with human approval gate before evals and checkpointer for state persistence
-    serde = JsonPlusSerializer(allowed_msgpack_modules=[
-        ("rescue.schemas", "TraceEvent"),
-        ("rescue.schemas", "FailureClassification"),
-        ("rescue.schemas", "Diagnosis"),
-        ("rescue.schemas", "DismissedHypothesis"),
-        ("rescue.schemas", "EvalCase"),
-        ("rescue.schemas", "CustomerDebrief"),
-    ])
-    checkpointer = MemorySaver(serde=serde)
-    return graph.compile(interrupt_before=["evals"], checkpointer=checkpointer)
+    return graph.compile(
+        interrupt_before=["evals"],
+        checkpointer=checkpointer,
+    )
+
+
+def build_local_graph():
+    """Compiled graph with in-memory checkpointer for CLI use."""
+    return build_graph(checkpointer=MemorySaver(serde=_serde()))
+
+
+# Exported for langgraph.json → LangGraph Platform / `langgraph dev`.
+graph = build_graph()

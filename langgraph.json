@@ -1,0 +1,8 @@
+{
+  "dependencies": ["."],
+  "graphs": {
+    "rescue": "./rescue/graph.py:graph"
+  },
+  "env": ".env",
+  "python_version": "3.11"
+}
