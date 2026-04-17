@@ -45,8 +45,8 @@ theme = Theme({
     "accent": f"bold {ACCENT}",
     "accent.soft": ACCENT_SOFT,
     "heading": f"bold {SNOW_WHITE}",
-    "body": MIST,
-    "dim": SUBTLE,
+    "body": SNOW_WHITE,
+    "dim": MIST,
     "ghost": MUTED,
     "warn": WARN_AMBER,
     "err": ERR_CORAL,
@@ -155,27 +155,27 @@ def print_approval_gate(diagnosis):
     console.print()
 
     diag = Text()
-    diag.append("Confidence  ", style="dim")
+    diag.append("Confidence  ", style="accent")
     diag.append_text(_confidence_bar(diagnosis.confidence))
     diag.append("\n\n")
 
-    diag.append("Root cause\n", style="dim")
+    diag.append("Root cause\n", style="accent")
     diag.append(f"{diagnosis.root_cause}\n\n", style="body")
 
-    diag.append("Confirmed failures\n", style="dim")
+    diag.append("Confirmed failures\n", style="accent")
     for c in diagnosis.confirmed_failures:
         conf_style = "ok" if c.confidence >= 0.7 else "warn" if c.confidence >= 0.4 else "err"
         diag.append(f"  {BULLET} ", style=conf_style)
         diag.append(f"[{c.confidence:.0%}] ", style=conf_style)
         diag.append(f"{c.failure_type}\n", style="body")
 
-    diag.append("\nRemediation steps\n", style="dim")
+    diag.append("\nRemediation steps\n", style="accent")
     for i, step in enumerate(diagnosis.remediation_steps, 1):
         diag.append(f"  {i}. ", style="accent")
         diag.append(f"{step}\n", style="body")
 
     if diagnosis.dismissed_hypotheses:
-        diag.append("\nDismissed hypotheses\n", style="dim")
+        diag.append("\nDismissed hypotheses\n", style="accent")
         for d in diagnosis.dismissed_hypotheses:
             diag.append(f"  {DISMISS} ", style="err")
             diag.append(f"{d.hypothesis}", style="body")
@@ -209,24 +209,24 @@ def print_debrief(debrief):
     console.print()
 
     memo = Text()
-    memo.append("Incident summary\n", style="dim")
+    memo.append("Incident summary\n", style="accent")
     memo.append(f"{debrief.incident_summary}\n\n", style="body")
 
-    memo.append("Root cause\n", style="dim")
+    memo.append("Root cause\n", style="accent")
     memo.append(f"{debrief.root_cause_plain}\n\n", style="body")
 
-    memo.append("Customer impact\n", style="dim")
+    memo.append("Customer impact\n", style="accent")
     memo.append(f"{debrief.customer_impact}\n\n", style="body")
 
-    memo.append("Fix\n", style="dim")
+    memo.append("Fix\n", style="accent")
     memo.append(f"{debrief.fix_description}\n\n", style="body")
 
-    memo.append("Prevention measures\n", style="dim")
+    memo.append("Prevention measures\n", style="accent")
     for m in debrief.prevention_measures:
         memo.append(f"  {BULLET} ", style="accent")
         memo.append(f"{m}\n", style="body")
 
-    memo.append("\nTimeline\n", style="dim")
+    memo.append("\nTimeline\n", style="accent")
     memo.append(f"{debrief.timeline}", style="body")
 
     title = Text(f"{STAGE_MARKER}  CUSTOMER DEBRIEF", style="accent")
