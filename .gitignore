@@ -5,3 +5,6 @@ __pycache__/
 dist/
 build/
 .DS_Store
+
+# Runtime state — learn node accumulates patterns per run
+data/knowledge.json
