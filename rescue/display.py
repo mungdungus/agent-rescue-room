@@ -261,6 +261,56 @@ def print_evals(eval_cases: list):
     console.print(table)
 
 
+def print_knowledge_loaded(n_patterns: int):
+    """Show that accumulated knowledge was pulled into the classifier."""
+    msg = Text()
+    msg.append(f"  {STAGE_MARKER} ", style="accent")
+    msg.append(f"Loaded ", style="body")
+    msg.append(f"{n_patterns}", style="accent")
+    suffix = " learned pattern" if n_patterns == 1 else " learned patterns"
+    msg.append(f"{suffix} from prior runs", style="body")
+    console.print(msg)
+
+
+def print_learn_summary(items: list, total: int):
+    """
+    Render extracted patterns with novel/existing markers.
+
+    items: list of (pattern, is_novel) where pattern has .pattern_id and .signal
+    total: final knowledge base size after this run
+    """
+    novel_count = sum(1 for _, is_novel in items if is_novel)
+
+    summary = Text()
+    summary.append(f"Extracted ", style="body")
+    summary.append(f"{len(items)}", style="accent")
+    summary.append(f" pattern{'s' if len(items) != 1 else ''}", style="body")
+    summary.append(f"  ", style="dim")
+    summary.append(f"{novel_count} novel", style="ok")
+    summary.append(f"  {CONNECTOR}  Knowledge base: ", style="dim")
+    summary.append(f"{total}", style="accent")
+    summary.append(f" total\n\n", style="dim")
+
+    for pattern, is_novel in items:
+        if is_novel:
+            summary.append(f"  + ", style="ok")
+        else:
+            summary.append(f"  = ", style="ghost")
+        summary.append(f"{pattern.pattern_id}", style="heading")
+        signal = pattern.signal[:70] + ("…" if len(pattern.signal) > 70 else "")
+        summary.append(f"  {signal}\n", style="body")
+
+    title = Text(f"{STAGE_MARKER}  LEARNED KNOWLEDGE", style="accent")
+    console.print(Panel(
+        summary,
+        title=title,
+        title_align="left",
+        border_style=ACCENT,
+        box=box.ROUNDED,
+        padding=(1, 2),
+    ))
+
+
 def print_completion():
     """Print the completion banner."""
     console.print()

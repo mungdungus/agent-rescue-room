@@ -16,6 +16,7 @@ from langchain_core.messages import HumanMessage, SystemMessage
 from langchain_google_genai import ChatGoogleGenerativeAI
 from pydantic import BaseModel, Field
 
+from rescue.display import print_learn_summary
 from rescue.schemas import RescueState
 
 load_dotenv()
@@ -117,7 +118,7 @@ def learn_node(state: RescueState) -> dict:
     # Load existing knowledge and deduplicate
     knowledge = load_knowledge()
     existing_fps = {p.get("fingerprint") for p in knowledge}
-    new_count = 0
+    novel_fps: set[str] = set()
 
     for pattern in result.patterns:
         fp = pattern_fingerprint(pattern)
@@ -133,14 +134,11 @@ def learn_node(state: RescueState) -> dict:
                 "source_root_cause": diagnosis.root_cause[:200],
             })
             existing_fps.add(fp)
-            new_count += 1
+            novel_fps.add(fp)
 
     save_knowledge(knowledge)
 
-    print(f"   Extracted {len(result.patterns)} patterns, {new_count} novel")
-    print(f"   Knowledge base: {len(knowledge)} total patterns")
-    for p in result.patterns:
-        marker = "+" if pattern_fingerprint(p) not in (existing_fps - {pattern_fingerprint(p) for p in result.patterns}) else "="
-        print(f"   [{marker}] {p.pattern_id}: {p.signal[:60]}")
+    items = [(p, pattern_fingerprint(p) in novel_fps) for p in result.patterns]
+    print_learn_summary(items, total=len(knowledge))
 
     return {}

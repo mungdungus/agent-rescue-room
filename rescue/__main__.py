@@ -139,13 +139,6 @@ def main():
     if eval_cases:
         print_evals(eval_cases)
 
-    # Show knowledge base status
-    from rescue.nodes.learn import load_knowledge
-    knowledge = load_knowledge()
-    if knowledge:
-        from rescue.display import console, EMERALD, SLATE
-        console.print(f"  [{SLATE}]Knowledge base: {len(knowledge)} learned patterns[/]")
-
     print_completion()
 
 

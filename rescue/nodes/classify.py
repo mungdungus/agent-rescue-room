@@ -7,6 +7,7 @@ from langchain_core.messages import HumanMessage, SystemMessage
 from langchain_google_genai import ChatGoogleGenerativeAI
 from pydantic import BaseModel, Field
 
+from rescue.display import print_knowledge_loaded
 from rescue.schemas import FailureClassification, RescueState
 
 load_dotenv()
@@ -74,11 +75,8 @@ def format_trace_for_llm(state: RescueState) -> str:
     return "\n".join(lines)
 
 
-def build_knowledge_context() -> str:
-    """Load accumulated patterns and format as classifier context."""
-    from rescue.nodes.learn import load_knowledge
-
-    patterns = load_knowledge()
+def build_knowledge_context(patterns: list[dict]) -> str:
+    """Format accumulated patterns as classifier context."""
     if not patterns:
         return ""
 
@@ -103,10 +101,12 @@ def classify_node(state: RescueState) -> dict:
     trace_text = format_trace_for_llm(state)
 
     # Inject accumulated knowledge into the system prompt
-    knowledge_ctx = build_knowledge_context()
+    from rescue.nodes.learn import load_knowledge
+    patterns = load_knowledge()
+    if patterns:
+        print_knowledge_loaded(len(patterns))
+    knowledge_ctx = build_knowledge_context(patterns)
     system_prompt = CLASSIFY_SYSTEM + knowledge_ctx
-    if knowledge_ctx:
-        print(f"   Loaded learned patterns into classifier")
 
     incident = state.get("incident_brief", "")
     human_input = f"Analyze this failed agent trace and classify all failures:\n\n{trace_text}"
