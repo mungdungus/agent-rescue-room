@@ -22,15 +22,21 @@ Current loop state:
 ## Session Continuity
 
 Last session: 2026-04-17
-Stopped at: Milestone v0.1 complete (Phase 3 closed via 03-02 UNIFY)
-Next action: Phase transition (evolve PROJECT.md + ROADMAP.md + phase commit) or milestone-complete routing
-Resume file: .paul/phases/03-outputs-integration/03-02-SUMMARY.md
+Stopped at: Milestone v0.1 complete — Phase 3 transitioned (PROJECT.md + ROADMAP.md evolved, phase commit 5b203d3 pushed)
+Next action: Run the interview demo, or plan a v0.2 milestone if pursuing post-interview polish
+Resume file: .paul/ROADMAP.md
 Resume context:
-- 03-02 SUMMARY written at .paul/phases/03-outputs-integration/03-02-SUMMARY.md
-- Public repo live at github.com/mungdungus/agent-rescue-room (last commit 903a0aa on origin/main)
-- All 6 core requirements shipped across Phases 1–3; demo is screen-share ready for the Friday interview
-- Deferred: pyproject.toml missing rich dep + version-floor drift vs requirements.txt (packaging polish pass, non-blocking)
+- Milestone v0.1 closed: all 3 phases complete, all 6 core requirements validated, public repo at github.com/mungdungus/agent-rescue-room on commit 5b203d3
+- 03-02 SUMMARY at .paul/phases/03-outputs-integration/03-02-SUMMARY.md
+- Deferred for v0.2: pyproject.toml missing rich dep + version-floor drift vs requirements.txt (packaging polish pass, non-blocking)
 - Interview: Friday April 17, 2026 (today)
+
+## Git State
+
+Last commit: 5b203d3 (feat(03-outputs-integration): close Phase 3 and milestone v0.1)
+Branch: main
+Pushed to origin: ✓
+Feature branches merged: none (work was done on main)
 
 ## Decisions
 
