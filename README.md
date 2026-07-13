@@ -43,7 +43,7 @@ The knowledge base grows with each incident. Patterns are deduplicated by signal
 ## Quick start
 
 ```bash
-git clone https://github.com/mungdungus/agent-rescue-room.git
+git clone https://github.com/christianmartin-dev/agent-rescue-room.git
 cd agent-rescue-room
 
 python -m venv venv
